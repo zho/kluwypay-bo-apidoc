@@ -1,0 +1,945 @@
+openapi: 3.1.0
+x-stoplight:
+  id: rilex5rogslu3
+info:
+  title: kluwypay-bo-api
+  version: '1.0'
+  summary: API Back Office KluwyPay
+  contact:
+    name: Joandi
+    url: '-'
+    email: '-'
+  termsOfService: '-'
+  description: API Back Office KluwyPay
+servers:
+  - url: 'http://localhost:8080'
+    description: LocalServer
+  - description: DevServer
+    url: 'https://api-bo.kluwypay.com'
+paths:
+  /auth:
+    post:
+      summary: POST auth
+      operationId: generateToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                example-1:
+                  username: superadmin@kluwypay.com
+                  password: superadmin
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+            examples:
+              superadmin:
+                value:
+                  username: superadmin@kluwypay.com
+                  password: superadmin
+              finance:
+                value:
+                  username: finance@kluwypay.com
+                  password: finance
+              support:
+                value:
+                  username: support@kluwypay.com
+                  password: support
+        required: true
+        description: username dan password terdaftar...
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  status:
+                    type: string
+                x-examples:
+                  example-1:
+                    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXBlcmFkbWluQGtsdXd5cGF5LmNvbSIsImV4cCI6MTY2MDA5MjMzNSwiaWF0IjoxNjYwMDU2MzM1fQ.bFyesrGQqvDyboWvKTT5kpMAYvxEblHLgfG2f2bs5xk
+                    status: OK
+              examples:
+                OK:
+                  value:
+                    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXBlcmFkbWluQGtsdXd5cGF5LmNvbSIsImV4cCI6MTY2MDA5MjMzNSwiaWF0IjoxNjYwMDU2MzM1fQ.bFyesrGQqvDyboWvKTT5kpMAYvxEblHLgfG2f2bs5xk
+                    status: OK
+                Invalid Username Or Password:
+                  value:
+                    token: ''
+                    status: invalid username / password
+      description: Melakukan generate JWT Token berdasarkan username & password pair yg terdaftar di database
+      tags:
+        - auth
+      security: []
+  /api/account/list:
+    get:
+      summary: GET Account List
+      operationId: account_list
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - JWTToken: []
+      tags:
+        - account
+      description: |
+        get account list registered in database
+  /api/bank/list:
+    get:
+      summary: GET Bank List
+      operationId: bank_list
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+      description: get bank list registered in database
+      tags:
+        - bank
+  /api/bank/create:
+    post:
+      summary: Create Bank
+      operationId: bank_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+      tags:
+        - bank
+      description: create new bank
+  /api/bank/update:
+    post:
+      summary: Update Bank
+      operationId: bank_update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+      tags:
+        - bank
+      description: update bank
+  /api/bank/delete:
+    get:
+      summary: Delete Bank
+      operationId: bank_delete
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+      tags:
+        - bank
+      description: delete bank
+  /api/channel/list:
+    get:
+      summary: GET Channel List
+      operationId: channel_list
+      parameters:
+        - name: start
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: length
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      security:
+        - JWTToken: []
+      tags:
+        - channel
+      description: get channel list
+  /api/channel/create:
+    post:
+      summary: Create New Channel
+      operationId: channel_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+      tags:
+        - channel
+      description: Create New Channel
+  /api/channel/update:
+    post:
+      summary: Update Channel
+      operationId: channel_update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+      tags:
+        - channel
+      description: Update Channel
+  /api/channel/delete:
+    get:
+      summary: Delete Channel
+      operationId: channel_delete
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      tags:
+        - channel
+      description: Delete Channel
+  /api/fee/list:
+    get:
+      summary: Fee List
+      operationId: fee_list
+      parameters:
+        - name: start
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: length
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+      tags:
+        - fee
+      description: mengambil fee list
+      security:
+        - JWTToken: []
+  /api/fee/create:
+    post:
+      summary: Fee Create
+      operationId: fee_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                example-1:
+                  pid: ''
+                  feetype: ''
+                  feeside: ''
+                  feeamount: 0
+                  trxtype: ''
+                  chid: ''
+              properties:
+                pid:
+                  type: string
+                feetype:
+                  type: string
+                feeside:
+                  type: string
+                feeamount:
+                  type: integer
+                trxtype:
+                  type: string
+                chid:
+                  type: string
+              required:
+                - pid
+                - feetype
+                - feeside
+                - feeamount
+                - trxtype
+                - chid
+            examples:
+              Sample:
+                value:
+                  pid: c12d762d-52ba-443a-8528-48cd9b8a867d
+                  feetype: fixed
+                  feeside: kreditor
+                  feeamount: 50000
+                  trxtype: deposit
+                  chid: c12d762d-52ba-443a-8528-48cd9b8a867d
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                x-examples:
+                  example-1:
+                    status: OK
+              examples:
+                OK:
+                  value:
+                    status: OK
+      tags:
+        - fee
+      description: membuat fee
+      security: []
+  /api/fee/update:
+    post:
+      summary: Fee Update
+      operationId: fee_update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+      tags:
+        - fee
+      description: mengupdate fee
+  /api/fee/delete:
+    get:
+      summary: Fee delete
+      operationId: fee_delete
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+      tags:
+        - fee
+      description: menghapus fee
+  /api/network/list:
+    get:
+      summary: Network List
+      operationId: network_list
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - JWTToken: []
+      description: mengambil daftar network dari database
+      tags:
+        - network
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                total:
+                  type: integer
+                size:
+                  type: integer
+                page:
+                  type: integer
+                content:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      ntname:
+                        type: string
+                      ntcode:
+                        type: string
+                      createdtime:
+                        type: string
+                      updatedtime:
+                        type: string
+                      swift:
+                        type: string
+              x-examples:
+                example-1:
+                  total: 1
+                  size: 5
+                  page: 0
+                  content:
+                    - id: 8d65b694-f1e6-4d43-a684-8fb7ebb96fcb
+                      ntname: Telkomsel
+                      ntcode: TSEL
+                      createdtime: '2022-08-09 15:05:02'
+                      updatedtime: '2022-08-09 15:05:02'
+                      swift: CENAIDJA
+            examples:
+              OK:
+                value:
+                  total: 1
+                  size: 5
+                  page: 0
+                  content:
+                    - id: 8d65b694-f1e6-4d43-a684-8fb7ebb96fcb
+                      ntname: Telkomsel
+                      ntcode: TSEL
+                      createdtime: '2022-08-09 15:05:02'
+                      updatedtime: '2022-08-09 15:05:02'
+                      swift: CENAIDJA
+  /api/network/create:
+    post:
+      summary: Network Create
+      operationId: network_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ntname:
+                  type: string
+                ntcode:
+                  type: string
+                swift:
+                  type: string
+              x-examples:
+                example-1:
+                  ntname: Telkomsel
+                  ntcode: TSEL
+                  swift: CENAIDJA
+            examples:
+              OK:
+                value:
+                  ntname: Telkomsel
+                  ntcode: TSEL
+                  swift: CENAIDJA
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+        required: true
+        description: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                x-examples:
+                  example-1:
+                    status: OK
+              examples:
+                OK:
+                  value:
+                    status: OK
+      security: []
+      description: membuat network baru
+      tags:
+        - network
+  /api/network/update:
+    post:
+      summary: Network Update
+      operationId: network_update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                ntname:
+                  type: string
+                ntcode:
+                  type: string
+                swift:
+                  type: string
+              x-examples:
+                example-1:
+                  id: 8d65b694-f1e6-4d43-a684-8fb7ebb96fcb
+                  ntname: Telkomsel
+                  ntcode: TSEL
+                  swift: CENAIDJA
+            examples:
+              OK:
+                value:
+                  id: 8d65b694-f1e6-4d43-a684-8fb7ebb96fcb
+                  ntname: Telkomsel
+                  ntcode: TSEL
+                  swift: CENAIDJA
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                x-examples:
+                  example-1:
+                    status: OK
+              examples:
+                OK:
+                  value:
+                    status: OK
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+      security: []
+      description: mengupdate data network dari database
+      tags:
+        - network
+  /api/network/delete:
+    get:
+      summary: Network Delete
+      operationId: network_delete
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                x-examples:
+                  example-1:
+                    status: OK
+              examples:
+                OK:
+                  value:
+                    status: OK
+      security: []
+      description: menghapus network
+      tags:
+        - network
+  /api/partner/list:
+    get:
+      summary: Partner LIST
+      operationId: partner_list
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+          description: 'halaman berapa, dimulai dari 0'
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 5
+          description: panjang record
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  size:
+                    type: integer
+                  page:
+                    type: integer
+                  content:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        pname:
+                          type: string
+                        pcode:
+                          type: string
+                        pemail:
+                          type: 'null'
+                        pphone:
+                          type: 'null'
+                        createdtime:
+                          type: string
+                        updatedtime:
+                          type: string
+                        state:
+                          type: string
+                x-examples:
+                  example-1:
+                    total: 4
+                    size: 5
+                    page: 0
+                    content:
+                      - id: 235e5428-84eb-4739-a977-f447cbf8908e
+                        pname: PT. BINEKA
+                        pcode: bsKAHUzg
+                        pemail: null
+                        pphone: null
+                        createdtime: '2022-08-07 13:22:34'
+                        updatedtime: '2022-08-07 13:22:34'
+                        state: active
+                      - id: e2d0e8c9-c6e7-4b2d-a309-391a4d2331af
+                        pname: PT. KLUWIPAY
+                        pcode: asdfasdf
+                        pemail: null
+                        pphone: null
+                        createdtime: '2022-08-07 19:31:38'
+                        updatedtime: '2022-08-07 19:31:42'
+                        state: active
+                      - id: d92bbec8-2507-497b-b861-02d5febfad49
+                        pname: PT. BINEKKA
+                        pcode: isVukDts
+                        pemail: null
+                        pphone: null
+                        createdtime: '2022-08-07 13:55:53'
+                        updatedtime: '2022-08-07 13:55:53'
+                        state: active
+                      - id: 863b98e8-914f-40d1-b08a-3f1b51c975ae
+                        pname: PT. COBA
+                        pcode: NkBNZQCr
+                        pemail: null
+                        pphone: null
+                        createdtime: '2022-08-08 06:48:50'
+                        updatedtime: '2022-08-08 06:48:50'
+                        state: active
+              examples:
+                example:
+                  value:
+                    total: 4
+                    size: 5
+                    page: 0
+                    content:
+                      - id: 235e5428-84eb-4739-a977-f447cbf8908e
+                        pname: PT. BINEKA
+                        pcode: bsKAHUzg
+                        pemail: null
+                        pphone: null
+                        createdtime: '2022-08-07 13:22:34'
+                        updatedtime: '2022-08-07 13:22:34'
+                        state: active
+                      - id: e2d0e8c9-c6e7-4b2d-a309-391a4d2331af
+                        pname: PT. KLUWIPAY
+                        pcode: asdfasdf
+                        pemail: null
+                        pphone: null
+                        createdtime: '2022-08-07 19:31:38'
+                        updatedtime: '2022-08-07 19:31:42'
+                        state: active
+                      - id: d92bbec8-2507-497b-b861-02d5febfad49
+                        pname: PT. BINEKKA
+                        pcode: isVukDts
+                        pemail: null
+                        pphone: null
+                        createdtime: '2022-08-07 13:55:53'
+                        updatedtime: '2022-08-07 13:55:53'
+                        state: active
+                      - id: 863b98e8-914f-40d1-b08a-3f1b51c975ae
+                        pname: PT. COBA
+                        pcode: NkBNZQCr
+                        pemail: null
+                        pphone: null
+                        createdtime: '2022-08-08 06:48:50'
+                        updatedtime: '2022-08-08 06:48:50'
+                        state: active
+      security: []
+      description: ambil partner list dari database
+      tags:
+        - partner
+  /api/partner/create:
+    post:
+      summary: Partner CREATE
+      operationId: partner_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pname:
+                  type: string
+                pcode:
+                  type: string
+                pemail:
+                  type: string
+                pphone:
+                  type: string
+                state:
+                  type: string
+              x-examples:
+                example-1:
+                  pname: PT Angin Ribut
+                  pcode: PTAR
+                  pemail: angin@ribut.com
+                  pphone: 021-8207659
+                  state: active
+            examples:
+              FULL Form:
+                value:
+                  pname: PT Angin Ribut
+                  pcode: PTAR
+                  pemail: angin@ribut.com
+                  pphone: 021-8207659
+                  state: active
+        required: true
+        description: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                x-examples:
+                  example-1:
+                    status: OK
+              examples:
+                OK:
+                  value:
+                    status: OK
+      description: create partner
+      security: []
+      tags:
+        - partner
+  /api/partner/update:
+    post:
+      summary: Partner UPDATE
+      operationId: partner_update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                pname:
+                  type: string
+                pcode:
+                  type: string
+                pemail:
+                  type: string
+                pphone:
+                  type: string
+                state:
+                  type: string
+              x-examples:
+                example-1:
+                  id: e5e36346-16d2-4487-a3f3-9ecf644e58eb
+                  pname: PT Angin Ribut
+                  pcode: PTAR
+                  pemail: angin@ribut.com
+                  pphone: 021-8207659
+                  state: active
+            examples:
+              OK:
+                value:
+                  id: e5e36346-16d2-4487-a3f3-9ecf644e58eb
+                  pname: PT Angin Ribut
+                  pcode: PTAB
+                  pemail: angin@ribut.com
+                  pphone: 021-8207659
+                  state: active
+        required: true
+        description: element ID di array akan digunakan untuk me-retrieve data existing
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+      description: Update Partner
+      security: []
+      tags:
+        - partner
+  /api/partner/delete:
+    get:
+      summary: Partner DELETE
+      operationId: partner_delete
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: partner id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  example-1:
+                    status: OK
+                properties:
+                  status:
+                    type: string
+              examples:
+                OK:
+                  value:
+                    status: OK
+      description: delete partner
+      security: []
+      tags:
+        - partner
+components:
+  securitySchemes:
+    JWTToken:
+      type: http
+      scheme: bearer
+tags:
+  - name: account
+  - name: auth
+  - name: bank
+  - name: channel
+  - name: fee
+  - name: network
+  - name: partner
+security: []
