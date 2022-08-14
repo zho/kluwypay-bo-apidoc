@@ -1081,6 +1081,9 @@ paths:
                     status: '0002'
       security:
         - JWTToken: []
+      description: show channel list that registered to particular network
+      tags:
+        - network
   /api/partner/list:
     get:
       summary: Partner LIST
@@ -1363,7 +1366,7 @@ paths:
   /api/partner-channel/list:
     get:
       summary: Partner Channel List
-      operationId: list
+      operationId: partner_channel_list
       parameters:
         - name: page
           in: query
@@ -1386,10 +1389,13 @@ paths:
                 type: string
       security:
         - JWTToken: []
+      description: get partner channel list
+      tags:
+        - partnerchannel
   /api/partner-channel/create:
     post:
       summary: Create Partner Channel
-      operationId: create
+      operationId: partner_channel_create
       requestBody:
         content:
           application/json:
@@ -1482,10 +1488,13 @@ paths:
                     data: {}
                     message: Partner Not Found
                     status: '0002'
+      tags:
+        - partnerchannel
+      description: create partner channel
   /api/partner-channel/update:
     post:
       summary: Update Partner Channel
-      operationId: update
+      operationId: partner_channel_update
       requestBody:
         content:
           application/json:
@@ -1598,10 +1607,13 @@ paths:
                     data: {}
                     message: Partner Channel Not Found
                     status: '0004'
+      tags:
+        - partnerchannel
+      description: update_partner_channel
   /api/partner-channel/delete:
     get:
       summary: Delete Partner Channel
-      operationId: delete
+      operationId: partner_channel_delete
       parameters:
         - name: id
           in: query
@@ -1633,6 +1645,9 @@ paths:
                   value:
                     message: OK
                     status: '0001'
+      description: delete partner channel
+      tags:
+        - partnerchannel
 components:
   securitySchemes:
     JWTToken:
@@ -1646,3 +1661,4 @@ tags:
   - name: fee
   - name: network
   - name: partner
+  - name: partnerchannel
