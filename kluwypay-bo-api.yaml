@@ -802,11 +802,11 @@ paths:
               properties:
                 pid:
                   type: string
+                feename:
+                  type: string
                 feetype:
                   type: string
                 feeside:
-                  type: string
-                feedesc:
                   type: string
                 feeamount:
                   type: integer
@@ -816,13 +816,13 @@ paths:
                   type: string
               x-examples:
                 example-1:
-                  pid: c12d762d-52ba-443a-8528-48cd9b8a867d
+                  pid: f3c223d1-085f-4a33-8caa-9015dd029bc4
+                  feename: Biaya Layanan
                   feetype: fixed
                   feeside: kreditor
-                  feedesc: Biaya Layanan
                   feeamount: 50000
                   trxtype: deposit
-                  chid: c12d762d-52ba-443a-8528-48cd9b8a867d
+                  chid: e29b2f49-285b-4341-94b4-94e92be7b483
             examples:
               Sample:
                 value:
@@ -1919,6 +1919,136 @@ paths:
       description: get partner detail
       tags:
         - partner
+      security:
+        - JWTToken: []
+  /api/partner/channel:
+    get:
+      summary: get channel by partner
+      operationId: channel_by_partner
+      parameters:
+        - name: pid
+          in: query
+          required: true
+          schema:
+            type: string
+          description: partner id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            ntid:
+                              type: string
+                            chname:
+                              type: string
+                            chfee:
+                              type: integer
+                            feetype:
+                              type: string
+                            pid:
+                              type: string
+                            feename:
+                              type: string
+                            feeside:
+                              type: string
+                            trxtype:
+                              type: string
+                            ntname:
+                              type: string
+                            ntcode:
+                              type: string
+                            pname:
+                              type: string
+                            state:
+                              type: boolean
+                  message:
+                    type: string
+                  status:
+                    type: string
+                x-examples:
+                  example-1:
+                    data:
+                      total: 2
+                      items:
+                        - id: 6f7ed818-3d08-4345-b5d9-7d6b3cc9b5f7
+                          ntid: 0f711e80-8151-4c73-9f70-4166ec703317
+                          chname: qris
+                          chfee: 2000
+                          feetype: fixed
+                          pid: f3c223d1-085f-4a33-8caa-9015dd029bc4
+                          feename: Biaya Upeti
+                          feeside: kreditor
+                          trxtype: deposit
+                          ntname: Telkomsel
+                          ntcode: TSEL
+                          pname: PT Angin Ribut
+                          state: true
+                        - id: 6f7ed818-3d08-4345-b5d9-7d6b3cc9b5f7
+                          ntid: 0f711e80-8151-4c73-9f70-4166ec703317
+                          chname: qris
+                          chfee: 2000
+                          feetype: fixed
+                          pid: f3c223d1-085f-4a33-8caa-9015dd029bc4
+                          feename: Biaya Upeti
+                          feeside: kreditor
+                          trxtype: deposit
+                          ntname: Telkomsel
+                          ntcode: TSEL
+                          pname: PT Angin Ribut
+                          state: true
+                    message: OK
+                    status: '0001'
+              examples:
+                Sample:
+                  value:
+                    data:
+                      total: 2
+                      items:
+                        - id: 6f7ed818-3d08-4345-b5d9-7d6b3cc9b5f7
+                          ntid: 0f711e80-8151-4c73-9f70-4166ec703317
+                          chname: qris
+                          chfee: 2000
+                          feetype: fixed
+                          pid: f3c223d1-085f-4a33-8caa-9015dd029bc4
+                          feename: Biaya Upeti
+                          feeside: kreditor
+                          trxtype: deposit
+                          ntname: Telkomsel
+                          ntcode: TSEL
+                          pname: PT Angin Ribut
+                          state: true
+                        - id: 6f7ed818-3d08-4345-b5d9-7d6b3cc9b5f7
+                          ntid: 0f711e80-8151-4c73-9f70-4166ec703317
+                          chname: qris
+                          chfee: 2000
+                          feetype: fixed
+                          pid: f3c223d1-085f-4a33-8caa-9015dd029bc4
+                          feename: Biaya Upeti
+                          feeside: kreditor
+                          trxtype: deposit
+                          ntname: Telkomsel
+                          ntcode: TSEL
+                          pname: PT Angin Ribut
+                          state: true
+                    message: OK
+                    status: '0001'
+      security:
+        - JWTToken: []
   /api/partner-channel/list:
     get:
       summary: Partner Channel List
