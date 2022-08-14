@@ -223,9 +223,9 @@ paths:
                 type: string
       security:
         - JWTToken: []
+      description: get channel list
       tags:
         - channel
-      description: get channel list
   /api/channel/create:
     post:
       summary: Create New Channel
@@ -235,6 +235,32 @@ paths:
           application/json:
             schema:
               type: object
+              properties:
+                ntid:
+                  type: string
+                chname:
+                  type: string
+                feetype:
+                  type: string
+                chfee:
+                  type: integer
+                state:
+                  type: boolean
+              x-examples:
+                example-1:
+                  ntid: 06fd799c-fa56-4c88-b868-611725ed69da
+                  chname: qris
+                  feetype: fixed
+                  chfee: 2000
+                  state: true
+            examples:
+              sample:
+                value:
+                  ntid: 06fd799c-fa56-4c88-b868-611725ed69da
+                  chname: qris
+                  feetype: fixed
+                  chfee: 2000
+                  state: true
         required: true
       responses:
         '200':
@@ -242,7 +268,31 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties: {}
+                  message:
+                    type: string
+                  status:
+                    type: string
+                x-examples:
+                  example-1:
+                    data: {}
+                    message: Network Not Found
+                    status: '0002'
+              examples:
+                Network Not Found:
+                  value:
+                    data: {}
+                    message: Network Not Found
+                    status: '0002'
+                OK:
+                  value:
+                    data: {}
+                    message: OK
+                    status: '0001'
       tags:
         - channel
       description: Create New Channel
@@ -255,7 +305,38 @@ paths:
           application/json:
             schema:
               type: object
+              properties:
+                id:
+                  type: string
+                ntid:
+                  type: string
+                chname:
+                  type: string
+                feetype:
+                  type: string
+                chfee:
+                  type: integer
+                state:
+                  type: boolean
+              x-examples:
+                example-1:
+                  id: e29b2f49-285b-4341-94b4-94e92be7b483
+                  ntid: 06fd799c-fa56-4c88-b868-611725ed69da
+                  chname: qris
+                  feetype: fixed
+                  chfee: 2000
+                  state: true
+            examples:
+              Sample:
+                value:
+                  id: e29b2f49-285b-4341-94b4-94e92be7b483
+                  ntid: 06fd799c-fa56-4c88-b868-611725ed69da
+                  chname: qris
+                  feetype: fixed
+                  chfee: 2000
+                  state: true
         required: true
+        description: ''
       responses:
         '200':
           description: OK
@@ -307,12 +388,83 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            pcode:
+                              type: string
+                            trxtype:
+                              type: string
+                            feeside:
+                              type: string
+                            feename:
+                              type: string
+                            feetype:
+                              type: string
+                            feeamount:
+                              type: integer
+                  message:
+                    type: string
+                  status:
+                    type: string
+                x-examples:
+                  example-1:
+                    data:
+                      total: 2
+                      items:
+                        - id: 84cf9bb6-ad5b-441f-af2d-e4483184a496
+                          pcode: PTAR
+                          trxtype: deposit
+                          feeside: kreditor
+                          feename: Biaya Upeti
+                          feetype: fixed
+                          feeamount: 50000
+                        - id: ef46e2e9-addc-4b14-a45a-68835e281fe3
+                          pcode: PTAR
+                          trxtype: deposit
+                          feeside: kreditor
+                          feename: Biaya Upeti
+                          feetype: fixed
+                          feeamount: 50000
+                    message: OK
+                    status: '0001'
+              examples:
+                OK:
+                  value:
+                    data:
+                      total: 2
+                      items:
+                        - id: 84cf9bb6-ad5b-441f-af2d-e4483184a496
+                          pcode: PTAR
+                          trxtype: deposit
+                          feeside: kreditor
+                          feename: Biaya Upeti
+                          feetype: fixed
+                          feeamount: 50000
+                        - id: ef46e2e9-addc-4b14-a45a-68835e281fe3
+                          pcode: PTAR
+                          trxtype: deposit
+                          feeside: kreditor
+                          feename: Biaya Upeti
+                          feetype: fixed
+                          feeamount: 50000
+                    message: OK
+                    status: '0001'
       tags:
         - fee
       description: mengambil fee list
-      security:
-        - JWTToken: []
+      security: []
   /api/fee/create:
     post:
       summary: Fee Create
@@ -322,16 +474,98 @@ paths:
           application/json:
             schema:
               type: object
-              x-examples:
-                example-1:
-                  pid: ''
-                  feetype: ''
-                  feeside: ''
-                  feeamount: 0
-                  trxtype: ''
-                  chid: ''
               properties:
                 pid:
+                  type: string
+                feetype:
+                  type: string
+                feeside:
+                  type: string
+                feedesc:
+                  type: string
+                feeamount:
+                  type: integer
+                trxtype:
+                  type: string
+                chid:
+                  type: string
+              x-examples:
+                example-1:
+                  pid: c12d762d-52ba-443a-8528-48cd9b8a867d
+                  feetype: fixed
+                  feeside: kreditor
+                  feedesc: Biaya Layanan
+                  feeamount: 50000
+                  trxtype: deposit
+                  chid: c12d762d-52ba-443a-8528-48cd9b8a867d
+            examples:
+              Sample:
+                value:
+                  pid: f3c223d1-085f-4a33-8caa-9015dd029bc4
+                  feename: Biaya Layanan
+                  feetype: fixed
+                  feeside: kreditor
+                  feeamount: 50000
+                  trxtype: deposit
+                  chid: e29b2f49-285b-4341-94b4-94e92be7b483
+        required: true
+        description: semua kolom required
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties: {}
+                  message:
+                    type: string
+                  status:
+                    type: string
+                x-examples:
+                  example-1:
+                    data: {}
+                    message: Channel Not Found
+                    status: '0003'
+              examples:
+                OK:
+                  value:
+                    data: {}
+                    message: OK
+                    status: '0001'
+                Channel Not Found:
+                  value:
+                    data: {}
+                    message: Channel Not Found
+                    status: '0003'
+                Partner Not Found:
+                  value:
+                    data: {}
+                    message: Partner Not Found
+                    status: '0002'
+      tags:
+        - fee
+      description: membuat fee
+      security:
+        - JWTToken: []
+  /api/fee/update:
+    post:
+      summary: Fee Update
+      operationId: fee_update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                pid:
+                  type: string
+                feename:
                   type: string
                 feetype:
                   type: string
@@ -343,22 +577,27 @@ paths:
                   type: string
                 chid:
                   type: string
-              required:
-                - pid
-                - feetype
-                - feeside
-                - feeamount
-                - trxtype
-                - chid
-            examples:
-              Sample:
-                value:
-                  pid: c12d762d-52ba-443a-8528-48cd9b8a867d
+              x-examples:
+                example-1:
+                  id: 2b510468-a2b9-4b12-b30c-04fe50d81967
+                  pid: f3c223d1-085f-4a33-8caa-9015dd029bc4
+                  feename: Biaya Denda
                   feetype: fixed
                   feeside: kreditor
                   feeamount: 50000
                   trxtype: deposit
-                  chid: c12d762d-52ba-443a-8528-48cd9b8a867d
+                  chid: e29b2f49-285b-4341-94b4-94e92be7b483
+            examples:
+              Sample:
+                value:
+                  id: 2b510468-a2b9-4b12-b30c-04fe50d81967
+                  pid: f3c223d1-085f-4a33-8caa-9015dd029bc4
+                  feename: Biaya Denda
+                  feetype: fixed
+                  feeside: kreditor
+                  feeamount: 50000
+                  trxtype: deposit
+                  chid: e29b2f49-285b-4341-94b4-94e92be7b483
         required: true
       responses:
         '200':
@@ -368,36 +607,39 @@ paths:
               schema:
                 type: object
                 properties:
+                  data:
+                    type: object
+                    properties: {}
+                  message:
+                    type: string
                   status:
                     type: string
                 x-examples:
                   example-1:
-                    status: OK
+                    data: {}
+                    message: OK
+                    status: '0001'
               examples:
                 OK:
                   value:
-                    status: OK
-      tags:
-        - fee
-      description: membuat fee
-      security: []
-  /api/fee/update:
-    post:
-      summary: Fee Update
-      operationId: fee_update
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: string
+                    data: {}
+                    message: OK
+                    status: '0001'
+                Channel Not Found:
+                  value:
+                    data: {}
+                    message: Channel Not Found
+                    status: '0003'
+                Partner Not Found:
+                  value:
+                    data: {}
+                    message: string
+                    status: string
+                Fee Not Found:
+                  value:
+                    data: {}
+                    message: Fee Not Found
+                    status: '0004'
       tags:
         - fee
       description: mengupdate fee
@@ -417,7 +659,30 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties: {}
+                  message:
+                    type: string
+                  status:
+                    type: string
+                x-examples:
+                  example-1:
+                    data: {}
+                    message: OK
+                    status: '0001'
+              examples:
+                OK:
+                  value:
+                    data: {}
+                    message: OK
+                    status: '0001'
+                Fee Not Found:
+                  value:
+                    message: Fee Not Found
+                    status: '0002'
       tags:
         - fee
       description: menghapus fee
@@ -432,78 +697,141 @@ paths:
           schema:
             type: integer
             format: int32
+            default: 1
+          description: halaman ke berapa
         - name: size
           in: query
           required: false
           schema:
             type: integer
             format: int32
+            default: 5
+          description: jumlah record per halaman
+        - schema:
+            type: string
+          in: query
+          name: ntname
+          description: mencari yg name nya ada mengandung string nganu
+        - schema:
+            type: string
+            default: asc
+          in: query
+          name: sort
+          description: '''asc'' apa ''desc'''
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: string
-      security:
-        - JWTToken: []
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            ntname:
+                              type: string
+                            ntcode:
+                              type: string
+                            channelCount:
+                              type: integer
+                            createdtime:
+                              type: string
+                            updatedtime:
+                              type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+                x-examples:
+                  example-1:
+                    data:
+                      total: 5
+                      items:
+                        - id: 0f711e80-8151-4c73-9f70-4166ec703317
+                          ntname: Telkomsel
+                          ntcode: TSEL
+                          channelCount: 1
+                          createdtime: '2022-08-13 08:22:31'
+                          updatedtime: '2022-08-13 08:22:31'
+                        - id: 2e17bd5c-b605-4973-9e3a-47d8483a63d5
+                          ntname: Telkomsel
+                          ntcode: TSEL
+                          channelCount: 0
+                          createdtime: '2022-08-12 06:06:02'
+                          updatedtime: '2022-08-13 13:02:44'
+                        - id: 57aa514b-fdc8-41e3-8d1b-cafefc78564b
+                          ntname: asd
+                          ntcode: '1'
+                          channelCount: 0
+                          createdtime: '2022-08-11 10:26:10'
+                          updatedtime: '2022-08-11 10:26:10'
+                        - id: f4b3ed67-7403-4d62-97d7-90241ba46bfe
+                          ntname: asd
+                          ntcode: '123'
+                          channelCount: 0
+                          createdtime: '2022-08-11 12:24:52'
+                          updatedtime: '2022-08-11 12:24:52'
+                        - id: 61d9ea23-a688-4461-99c2-0a984c6be5f1
+                          ntname: asd
+                          ntcode: '123'
+                          channelCount: 0
+                          createdtime: '2022-08-12 02:59:21'
+                          updatedtime: '2022-08-12 02:59:21'
+                    message: OK
+                    status: '0001'
+              examples:
+                OK:
+                  value:
+                    data:
+                      total: 5
+                      items:
+                        - id: 0f711e80-8151-4c73-9f70-4166ec703317
+                          ntname: Telkomsel
+                          ntcode: TSEL
+                          channelCount: 1
+                          createdtime: '2022-08-13 08:22:31'
+                          updatedtime: '2022-08-13 08:22:31'
+                        - id: 2e17bd5c-b605-4973-9e3a-47d8483a63d5
+                          ntname: Telkomsel
+                          ntcode: TSEL
+                          channelCount: 0
+                          createdtime: '2022-08-12 06:06:02'
+                          updatedtime: '2022-08-13 13:02:44'
+                        - id: 57aa514b-fdc8-41e3-8d1b-cafefc78564b
+                          ntname: asd
+                          ntcode: '1'
+                          channelCount: 0
+                          createdtime: '2022-08-11 10:26:10'
+                          updatedtime: '2022-08-11 10:26:10'
+                        - id: f4b3ed67-7403-4d62-97d7-90241ba46bfe
+                          ntname: asd
+                          ntcode: '123'
+                          channelCount: 0
+                          createdtime: '2022-08-11 12:24:52'
+                          updatedtime: '2022-08-11 12:24:52'
+                        - id: 61d9ea23-a688-4461-99c2-0a984c6be5f1
+                          ntname: asd
+                          ntcode: '123'
+                          channelCount: 0
+                          createdtime: '2022-08-12 02:59:21'
+                          updatedtime: '2022-08-12 02:59:21'
+                    message: OK
+                    status: '0001'
       description: mengambil daftar network dari database
       tags:
         - network
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                total:
-                  type: integer
-                size:
-                  type: integer
-                page:
-                  type: integer
-                content:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                      ntname:
-                        type: string
-                      ntcode:
-                        type: string
-                      createdtime:
-                        type: string
-                      updatedtime:
-                        type: string
-                      swift:
-                        type: string
-              x-examples:
-                example-1:
-                  total: 1
-                  size: 5
-                  page: 0
-                  content:
-                    - id: 8d65b694-f1e6-4d43-a684-8fb7ebb96fcb
-                      ntname: Telkomsel
-                      ntcode: TSEL
-                      createdtime: '2022-08-09 15:05:02'
-                      updatedtime: '2022-08-09 15:05:02'
-                      swift: CENAIDJA
-            examples:
-              OK:
-                value:
-                  total: 1
-                  size: 5
-                  page: 0
-                  content:
-                    - id: 8d65b694-f1e6-4d43-a684-8fb7ebb96fcb
-                      ntname: Telkomsel
-                      ntcode: TSEL
-                      createdtime: '2022-08-09 15:05:02'
-                      updatedtime: '2022-08-09 15:05:02'
-                      swift: CENAIDJA
+      security:
+        - JWTToken: []
   /api/network/create:
     post:
       summary: Network Create
@@ -518,19 +846,15 @@ paths:
                   type: string
                 ntcode:
                   type: string
-                swift:
-                  type: string
               x-examples:
                 example-1:
                   ntname: Telkomsel
                   ntcode: TSEL
-                  swift: CENAIDJA
             examples:
               OK:
                 value:
                   ntname: Telkomsel
                   ntcode: TSEL
-                  swift: CENAIDJA
           application/xml:
             schema:
               type: object
@@ -574,21 +898,17 @@ paths:
                   type: string
                 ntcode:
                   type: string
-                swift:
-                  type: string
               x-examples:
                 example-1:
                   id: 8d65b694-f1e6-4d43-a684-8fb7ebb96fcb
                   ntname: Telkomsel
                   ntcode: TSEL
-                  swift: CENAIDJA
             examples:
-              OK:
+              Example:
                 value:
                   id: 8d65b694-f1e6-4d43-a684-8fb7ebb96fcb
                   ntname: Telkomsel
                   ntcode: TSEL
-                  swift: CENAIDJA
           application/xml:
             schema:
               type: object
@@ -602,15 +922,29 @@ paths:
               schema:
                 type: object
                 properties:
+                  data:
+                    type: object
+                    properties: {}
+                  message:
+                    type: string
                   status:
                     type: string
                 x-examples:
                   example-1:
-                    status: OK
+                    data: {}
+                    message: OK
+                    status: '0001'
               examples:
                 OK:
                   value:
-                    status: OK
+                    data: {}
+                    message: OK
+                    status: '0001'
+                Network Not Found:
+                  value:
+                    data: {}
+                    message: Network Not Found
+                    status: '0002'
             application/xml:
               schema:
                 type: object
@@ -637,19 +971,116 @@ paths:
               schema:
                 type: object
                 properties:
+                  data:
+                    type: object
+                    properties: {}
+                  message:
+                    type: string
                   status:
                     type: string
                 x-examples:
                   example-1:
-                    status: OK
+                    data: {}
+                    message: OK
+                    status: '0001'
               examples:
                 OK:
                   value:
-                    status: OK
-      security: []
+                    data: {}
+                    message: OK
+                    status: '0001'
+                Network Not Found:
+                  value:
+                    data: {}
+                    message: Network Not Found
+                    status: '0002'
+      security:
+        - JWTToken: []
       description: menghapus network
       tags:
         - network
+  /api/network/channel:
+    get:
+      summary: Get Channel List By Network
+      operationId: network_channel_list
+      parameters:
+        - name: nid
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            chname:
+                              type: string
+                            feetype:
+                              type: string
+                            chfee:
+                              type: integer
+                            createdtime:
+                              type: string
+                            updatedTime:
+                              type: string
+                            state:
+                              type: boolean
+                  message:
+                    type: string
+                  status:
+                    type: string
+                x-examples:
+                  example-1:
+                    data:
+                      total: 1
+                      items:
+                        - id: 6f7ed818-3d08-4345-b5d9-7d6b3cc9b5f7
+                          chname: qris
+                          feetype: fixed
+                          chfee: 2000
+                          createdtime: '2022-08-13 20:21:56'
+                          updatedTime: '2022-08-13 20:21:56'
+                          state: true
+                    message: OK
+                    status: '0001'
+              examples:
+                OK:
+                  value:
+                    data:
+                      total: 1
+                      items:
+                        - id: 6f7ed818-3d08-4345-b5d9-7d6b3cc9b5f7
+                          chname: qris
+                          feetype: fixed
+                          chfee: 2000
+                          createdtime: '2022-08-13 20:21:56'
+                          updatedTime: '2022-08-13 20:21:56'
+                          state: true
+                    message: OK
+                    status: '0001'
+                Network Not Found:
+                  value:
+                    data: {}
+                    message: Network Not Found
+                    status: '0002'
+      security:
+        - JWTToken: []
   /api/partner/list:
     get:
       summary: Partner LIST
@@ -929,6 +1360,279 @@ paths:
       security: []
       tags:
         - partner
+  /api/partner-channel/list:
+    get:
+      summary: Partner Channel List
+      operationId: list
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - JWTToken: []
+  /api/partner-channel/create:
+    post:
+      summary: Create Partner Channel
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                chid:
+                  type: string
+                pid:
+                  type: string
+                mid:
+                  type: string
+                tid:
+                  type: string
+                mname:
+                  type: string
+                maxamount:
+                  type: integer
+                minamount:
+                  type: integer
+                maxtrx:
+                  type: integer
+                status:
+                  type: string
+                maxvolume:
+                  type: integer
+                trxvolume:
+                  type: integer
+              x-examples:
+                example-1:
+                  chid: ''
+                  pid: ''
+                  mid: ''
+                  tid: ''
+                  mname: ''
+                  maxamount: 0
+                  minamount: 0
+                  maxtrx: 0
+                  status: ''
+                  maxvolume: 0
+                  trxvolume: 0
+            examples:
+              Sample:
+                value:
+                  chid: 6f7ed818-3d08-4345-b5d9-7d6b3cc9b5f7
+                  pid: f3c223d1-085f-4a33-8caa-9015dd029bc4
+                  mid: MID
+                  tid: TID
+                  mname: MNAME
+                  maxamount: 12345678
+                  minamount: 1234
+                  maxtrx: 1000
+                  status: active
+                  maxvolume: 1000000
+                  trxvolume: 500000
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties: {}
+                  message:
+                    type: string
+                  status:
+                    type: string
+                x-examples:
+                  example-1:
+                    data: {}
+                    message: OK
+                    status: '0001'
+              examples:
+                OK:
+                  value:
+                    data: {}
+                    message: OK
+                    status: '0001'
+                Channel Not Found:
+                  value:
+                    data: {}
+                    message: Channel Not Found
+                    status: '0003'
+                Partner Not Found:
+                  value:
+                    data: {}
+                    message: Partner Not Found
+                    status: '0002'
+  /api/partner-channel/update:
+    post:
+      summary: Update Partner Channel
+      operationId: update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                example-1:
+                  id: ''
+                  chid: ''
+                  pid: ''
+                  mid: ''
+                  tid: ''
+                  mname: ''
+                  maxamount: 0
+                  minamount: 0
+                  maxtrx: 0
+                  status: ''
+                  maxvolume: 0
+                  trxvolume: 0
+              properties:
+                id:
+                  type: string
+                chid:
+                  type: string
+                pid:
+                  type: string
+                mid:
+                  type: string
+                tid:
+                  type: string
+                mname:
+                  type: string
+                maxamount:
+                  type: integer
+                minamount:
+                  type: integer
+                maxtrx:
+                  type: integer
+                status:
+                  type: string
+                maxvolume:
+                  type: integer
+                trxvolume:
+                  type: integer
+              required:
+                - id
+            examples:
+              sample:
+                value:
+                  id: 7f1b2591-c786-46b5-9966-1fda23bd1747
+                  chid: 6f7ed818-3d08-4345-b5d9-7d6b3cc9b5f7
+                  pid: f3c223d1-085f-4a33-8caa-9015dd029bc4
+                  mid: MID
+                  tid: TID
+                  mname: MNAME
+                  maxamount: 12345678
+                  minamount: 1234
+                  maxtrx: 1000
+                  status: active
+                  maxvolume: 1000000
+                  trxvolume: 500000
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties: {}
+                  message:
+                    type: string
+                  status:
+                    type: string
+                x-examples:
+                  example-1:
+                    data: {}
+                    message: OK
+                    status: '0001'
+              examples:
+                OK:
+                  value:
+                    id: 7f1b2591-c786-46b5-9966-1fda23bd1747
+                    chid: 6f7ed818-3d08-4345-b5d9-7d6b3cc9b5f7
+                    pid: f3c223d1-085f-4a33-8caa-9015dd029b4
+                    mid: MID
+                    tid: TID
+                    mname: MNAME
+                    maxamount: 12345678
+                    minamount: 1234
+                    maxtrx: 1000
+                    status: active
+                    maxvolume: 1000000
+                    trxvolume: 500000
+                Partner Not Found:
+                  value:
+                    data: {}
+                    message: string
+                    status: string
+                Channel Not Found:
+                  value:
+                    data: {}
+                    message: Channel Not Found
+                    status: '0003'
+                Partner Channel Not Found:
+                  value:
+                    data: {}
+                    message: Partner Channel Not Found
+                    status: '0004'
+  /api/partner-channel/delete:
+    get:
+      summary: Delete Partner Channel
+      operationId: delete
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  status:
+                    type: string
+                x-examples:
+                  example-1:
+                    message: OK
+                    status: '0001'
+              examples:
+                Partner Channel Not Found:
+                  value:
+                    message: Partner Channel Not Found
+                    status: '0002'
+                OK:
+                  value:
+                    message: OK
+                    status: '0001'
 components:
   securitySchemes:
     JWTToken:
@@ -942,4 +1646,3 @@ tags:
   - name: fee
   - name: network
   - name: partner
-security: []
